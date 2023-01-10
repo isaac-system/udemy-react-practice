@@ -32,13 +32,27 @@ const App = () => {
     },
   ]);
 
-  const addExpenseHandler = (el) => {
-    console.log("In App.js");
+  const addExpenseHandler = (newExpenseData) => {
+    //console.log("In App.js");
     // console.log(el);
-
+    // Create
     setExpense((prevState) => {
-      return [...prevState, el];
+      return [...prevState, newExpenseData];
     });
+    // console.log(expense);
+  };
+
+  const updateExpenseHandler = (newExpenseData) => {
+    //console.log("In App.js");
+    //console.log(newExpenseData);
+    // Update
+    setExpense(
+      expense.map((item) =>
+        item.id === newExpenseData.id
+          ? { ...item, title: newExpenseData.title }
+          : item
+      )
+    );
     // console.log(expense);
   };
 
@@ -49,7 +63,7 @@ const App = () => {
     // !!! 리액트에 있는 컴포넌트는 단지 자바스크립트 함수일 뿐이다.
     <div>
       <NewExpense onAddExpenseData={addExpenseHandler} />
-      <Expense items={expense} />
+      <Expense items={expense} onChagneExpenseData={updateExpenseHandler} />
     </div>
   );
 };

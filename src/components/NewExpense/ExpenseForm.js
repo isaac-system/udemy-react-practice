@@ -14,7 +14,10 @@ const ExpenseForm = (props) => {
   //     enteredDate: "",
   //   });
 
-  //document.getElementById("").addEventListener("cick", (event) => {});
+  //document.getElementById("").addEventListener("click", (event) => {});
+  //vanila js 에서는 위와 같은 식으로 event 객체를 가져온다. (명령형)
+  // 아래는 react에서 event 객체를 가져오는 방식 (선언형)
+
   const titleChangeHandler = (event) => {
     // 방법 1 . 여러개의 useState를 사용하여 관리
     setEnteredTitle(event.target.value);
@@ -41,26 +44,38 @@ const ExpenseForm = (props) => {
     //   return { ...prevState, enteredDate: event.target.value };
     // });
   };
+  /*
+    react 는 기본적으로 부모 컴포넌트에 데이터를 자식 컴포넌트로 전달하는 하향식(단방향) 바인딩이다.
+    자식 컴포넌트로 부모 컴포넌트의 state를 변화를 주기 위하여 양방향 바인딩을 한다.
+
+    양방향 바인딩이란?
+    부모 컴포넌트와 자식 컴포넌트들과 데이터를 직접 변경할 수 있는 것을 의미한다.
+
+    onChange 속성에 현재 사용자 리스너를 통해 state값을 변경할 setState(event.target.value)가 들어간 포인터를 넣어준다.
+    또한 input 의 기본 value 속성에 state 프로퍼티를 넣는다.
+    value값이 state와 항상 같아지고 이 변경된 데이터를 state lifting(상향식 통신)을 통하여
+    부모 컴포넌트에 전달한다.
+  */
 
   // ajax 같은거?
   const submitHandler = (event) => {
     // form이 새로고침 되는 것을 막는다.
     event.preventDefault();
 
-    const expenseData = {
+    const newExpenseData = {
       title: enteredTitle,
       amount: enteredAmount,
       date: new Date(enteredDate),
     };
 
-    //  양방향 바인딩이 뭐지?
-
     // 상향식 통신
-    props.onSaveExpenseData(expenseData);
+    props.onSaveExpenseData(newExpenseData);
+    // 작성한 내용 비우기
     setEnteredTitle("");
     setEnteredAmount("");
     setEnteredDate("");
   };
+
   return (
     <form onSubmit={submitHandler}>
       <div className="new-expense__controls">

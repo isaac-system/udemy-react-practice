@@ -10,6 +10,12 @@ const Expense = (props) => {
   const changeYearHandler = (selectedYear) => {
     setYearFilter(selectedYear);
   };
+
+  const changeTitleHandler = (updatedTitle) => {
+    props.onChagneExpenseData(updatedTitle);
+  };
+
+  console.log(props);
   return (
     <Card className="expenses">
       <ExpenseFilter
@@ -24,9 +30,11 @@ const Expense = (props) => {
         .map((item) => (
           <ExpenseItem
             key={item.id}
+            id={item.id}
             title={item.title}
             amount={item.amount}
             date={item.date}
+            onChagneExpenseData={changeTitleHandler}
           />
         ))}
     </Card>
