@@ -57,6 +57,9 @@ const ExpenseForm = (props) => {
     부모 컴포넌트에 전달한다.
   */
 
+  const cancleClickHandler = () => {
+    props.onCancleForm();
+  };
   // ajax 같은거?
   const submitHandler = (event) => {
     // form이 새로고침 되는 것을 막는다.
@@ -74,6 +77,8 @@ const ExpenseForm = (props) => {
     setEnteredTitle("");
     setEnteredAmount("");
     setEnteredDate("");
+
+    props.onCancleForm();
   };
 
   return (
@@ -109,6 +114,9 @@ const ExpenseForm = (props) => {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button type="button" onClick={cancleClickHandler}>
+          Cancle
+        </button>
         <button type="submit">Add Expense</button>
       </div>
     </form>

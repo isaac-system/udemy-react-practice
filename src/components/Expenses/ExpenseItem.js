@@ -11,6 +11,7 @@ const ExpenseItem = (props) => {
   const expenseAmount = 294.67;
   */
   const [title, setTitle] = useState(props.title);
+
   const [isTitleSetting, setIsTitleSetting] = useState(false);
   // 새로운 값을 할당하는데 왜 const를 사용하는가?
   // ???
@@ -62,6 +63,7 @@ const ExpenseItem = (props) => {
             value={title}
             onChange={updateTitleHandler}
             onKeyDown={keyEnter}
+            onBlur={titleDoubleClickHandler}
           />
         ) : (
           <h2>{title}</h2>

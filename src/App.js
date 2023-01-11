@@ -10,7 +10,7 @@ const App = () => {
   document.getElementsByTagName("root").append(para);
   */
 
-  const [expense, setExpense] = useState([
+  const DUMMY_EXPENES = [
     {
       id: "e1",
       title: "Toilet Paper",
@@ -30,14 +30,16 @@ const App = () => {
       amount: 450,
       date: new Date(2021, 5, 12),
     },
-  ]);
+  ];
+
+  const [expenses, setExpenses] = useState(DUMMY_EXPENES);
 
   const addExpenseHandler = (newExpenseData) => {
-    //console.log("In App.js");
+    // console.log("In App.js");
     // console.log(el);
     // Create
-    setExpense((prevState) => {
-      return [...prevState, newExpenseData];
+    setExpenses((prevExpenses) => {
+      return [newExpenseData, ...prevExpenses];
     });
     // console.log(expense);
   };
@@ -46,8 +48,8 @@ const App = () => {
     //console.log("In App.js");
     //console.log(newExpenseData);
     // Update
-    setExpense(
-      expense.map((item) =>
+    setExpenses(
+      expenses.map((item) =>
         item.id === newExpenseData.id
           ? { ...item, title: newExpenseData.title }
           : item
@@ -63,7 +65,7 @@ const App = () => {
     // !!! 리액트에 있는 컴포넌트는 단지 자바스크립트 함수일 뿐이다.
     <div>
       <NewExpense onAddExpenseData={addExpenseHandler} />
-      <Expense items={expense} onChagneExpenseData={updateExpenseHandler} />
+      <Expense items={expenses} onChagneExpenseData={updateExpenseHandler} />
     </div>
   );
 };

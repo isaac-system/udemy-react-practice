@@ -5,29 +5,48 @@ import ExpenseFilter from "./ExpenseFilter";
 import React, { useState } from "react";
 
 const Expense = (props) => {
-  const [yearFilter, setYearFilter] = useState("2020");
+  const [filteredYear, setFilteredYear] = useState("2020");
 
-  const changeYearHandler = (selectedYear) => {
-    setYearFilter(selectedYear);
+  const filterChangeHandler = (selectedYear) => {
+    setFilteredYear(selectedYear);
   };
+
+  const filteredExpenses = props.items.filter((expense) => {
+    return expense.date.getFullYear().toString() === filteredYear;
+  });
 
   const changeTitleHandler = (updatedTitle) => {
     props.onChagneExpenseData(updatedTitle);
   };
 
-  console.log(props);
+  {
+    /* 방법 3 */
+  }
+  let expensesContent = <p>No expenses found.</p>;
+  if (props.items.length > 0) {
+    expensesContent = filteredExpenses.map((item, index) => (
+      <ExpenseItem
+        key={index}
+        title={item.title}
+        amount={item.amount}
+        date={item.date}
+        onChagneExpenseData={changeTitleHandler}
+      />
+    ));
+  }
+
   return (
     <Card className="expenses">
       <ExpenseFilter
-        selectedYear={yearFilter}
-        onUpdateYear={changeYearHandler}
+        selectedYear={filteredYear}
+        onUpdateYear={filterChangeHandler}
       />
 
-      {props.items
-        .filter(
-          (item) => yearFilter === new Date(item.date).getFullYear().toString()
-        )
-        .map((item) => (
+      {/* 방법 1 : && 연산자를 이용하기*/}
+      {/*
+      {filteredExpenses.length === 0 && expensesContent}
+      {filteredExpenses.length > 0 &&
+        filteredExpenses.map((item) => (
           <ExpenseItem
             key={item.id}
             id={item.id}
@@ -37,6 +56,28 @@ const Expense = (props) => {
             onChagneExpenseData={changeTitleHandler}
           />
         ))}
+       */}
+
+      {/* 방법 2 : 삼항 연산자를 이용하기*/}
+      {/*       
+      {filteredExpenses.length === 0 ? (
+        <p>No expenses found.</p>
+      ) : (
+        filteredExpenses.map((item) => (
+          <ExpenseItem
+            key={item.id}
+            id={item.id}
+            title={item.title}
+            amount={item.amount}
+            date={item.date}
+            onChagneExpenseData={changeTitleHandler}
+          />
+        ))
+      )}
+       */}
+
+      {/* 방법 3 : 컴포넌트 내부에서 변수로 정의하고 그대로 내려받기*/}
+      {expensesContent}
     </Card>
   );
 };
