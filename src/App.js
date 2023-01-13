@@ -34,28 +34,20 @@ const App = () => {
 
   const [expenses, setExpenses] = useState(DUMMY_EXPENES);
 
+  // Create
   const addExpenseHandler = (newExpenseData) => {
-    // console.log("In App.js");
-    // console.log(el);
-    // Create
     setExpenses((prevExpenses) => {
       return [newExpenseData, ...prevExpenses];
     });
-    // console.log(expense);
   };
-
+  // Update
   const updateExpenseHandler = (newExpenseData) => {
-    //console.log("In App.js");
-    //console.log(newExpenseData);
-    // Update
+    console.log(newExpenseData);
     setExpenses(
       expenses.map((item) =>
-        item.id === newExpenseData.id
-          ? { ...item, title: newExpenseData.title }
-          : item
+        item.id === newExpenseData.id ? { ...item, ...newExpenseData } : item
       )
     );
-    // console.log(expense);
   };
 
   return (
