@@ -4,28 +4,41 @@ import ExpenseItem from "./ExpenseItem";
 import Card from "../UI/Card";
 import ExpenseFilter from "./ExpenseFilter";
 import ExpensesChart from "./ExpensesChart";
+import ExpensesSearch from "./ExpensesSearch";
 
 import "./Expense.css";
+
 const Expense = (props) => {
-  const [filteredYear, setFilteredYear] = useState("2020");
-
+  const [title, setTitle] = useState("");
   const filterChangeHandler = (selectedYear) => {
-    setFilteredYear(selectedYear);
+    props.onFilteredYear(selectedYear);
   };
-
+  const searchTitleHandler = (title) => {
+    setTitle(title);
+  };
   const filteredExpenses = props.items.filter((expense) => {
-    return expense.date.getFullYear().toString() === filteredYear;
+    return (
+      expense.date.getFullYear().toString() === props.filteredYear &&
+      expense.title.toLowerCase().includes(title.toLowerCase())
+    );
   });
-
   const submitHandler = (updatedData) => {
     props.onChagneExpenseData(updatedData);
   };
 
-  {
-    /* 방법 3 */
-  }
-  let expensesContent = <p>No expenses found.</p>;
-  if (props.items.length > 0) {
+  let expensesContent = (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <p style={{ color: "white" }}>No expenses found.</p>
+    </div>
+  );
+
+  if (filteredExpenses.length > 0) {
     expensesContent = filteredExpenses.map((item) => (
       <ExpenseItem
         key={item.id}
@@ -41,9 +54,11 @@ const Expense = (props) => {
   return (
     <Card className="expenses">
       <ExpenseFilter
-        selectedYear={filteredYear}
+        selectedYear={props.filteredYear}
         onUpdateYear={filterChangeHandler}
-      />
+      >
+        <ExpensesSearch onSearchTitle={searchTitleHandler} />
+      </ExpenseFilter>
       <ExpensesChart expenses={filteredExpenses} />
       {/* 방법 1 : && 연산자를 이용하기*/}
       {/*

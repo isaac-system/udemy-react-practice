@@ -37,12 +37,12 @@ const ExpenseItem = (props) => {
 
   const onChangeHandler = (event) => {
     const { value, name, type } = event.target;
-    console.log(type);
+
     setInputs((prevState) => {
-      if (type !== "date") {
-        return { ...prevState, [name]: value };
-      } else {
+      if (type === "date") {
         return { ...prevState, [name]: new Date(value) };
+      } else {
+        return { ...prevState, [name]: value };
       }
     });
   };
@@ -71,8 +71,11 @@ const ExpenseItem = (props) => {
       });
     }
   };
+  const onKeyDownHandler = (event) => {
+    if (!/^[.0-9]/.test(event.key) && event.key.length === 1) {
+      event.preventDefault();
+    }
 
-  const enterHandler = (event) => {
     if (event.key === "Enter") {
       submitHandler();
     }
@@ -87,7 +90,7 @@ const ExpenseItem = (props) => {
           min="2019-01-01"
           max="2023-12-31"
           onChange={onChangeHandler}
-          onKeyDown={enterHandler}
+          onKeyDown={onKeyDownHandler}
           onBlur={submitHandler}
           onDoubleClick={doubleClickHandler}
         />
@@ -102,7 +105,7 @@ const ExpenseItem = (props) => {
             name="title"
             type="text"
             onChange={onChangeHandler}
-            onKeyDown={enterHandler}
+            onKeyDown={onKeyDownHandler}
             onBlur={submitHandler}
             onDoubleClick={doubleClickHandler}
           />
@@ -121,10 +124,11 @@ const ExpenseItem = (props) => {
               value={amount}
               name="amount"
               type="number"
-              min="0.01"
-              step="0.01"
+              min="0.1"
+              step="0.1"
+              pattern="[0-9]*"
               onChange={onChangeHandler}
-              onKeyDown={enterHandler}
+              onKeyDown={onKeyDownHandler}
               onBlur={submitHandler}
               onDoubleClick={doubleClickHandler}
             />
@@ -139,6 +143,7 @@ const ExpenseItem = (props) => {
           )}
         </div>
       </div>
+
       {/* 
       clickHandler()가 아니라  clickHandler 라는 포인터를 전달한다.
       why ?

@@ -34,15 +34,17 @@ const App = () => {
 
   const [expenses, setExpenses] = useState(DUMMY_EXPENES);
 
+  const [filteredYear, setFilteredYear] = useState("2020");
+
   // Create
   const addExpenseHandler = (newExpenseData) => {
     setExpenses((prevExpenses) => {
       return [newExpenseData, ...prevExpenses];
     });
   };
+
   // Update
   const updateExpenseHandler = (newExpenseData) => {
-    console.log(newExpenseData);
     setExpenses(
       expenses.map((item) =>
         item.id === newExpenseData.id ? { ...item, ...newExpenseData } : item
@@ -56,8 +58,16 @@ const App = () => {
     // JSX 문법으로 작성하면 브라우저로 갈 때 브라우저 친화적 코드로 변환됨
     // !!! 리액트에 있는 컴포넌트는 단지 자바스크립트 함수일 뿐이다.
     <div>
-      <NewExpense onAddExpenseData={addExpenseHandler} />
-      <Expense items={expenses} onChagneExpenseData={updateExpenseHandler} />
+      <NewExpense
+        onAddExpenseData={addExpenseHandler}
+        onFilteredYear={setFilteredYear}
+      />
+      <Expense
+        items={expenses}
+        onChagneExpenseData={updateExpenseHandler}
+        onFilteredYear={setFilteredYear}
+        filteredYear={filteredYear}
+      />
     </div>
   );
 };

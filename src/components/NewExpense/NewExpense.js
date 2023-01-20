@@ -31,6 +31,7 @@ const NewExpense = (props) => {
       <ExpenseForm
         onSaveExpenseData={saveExpenseDataHandler}
         onCancleForm={stopEditingHandler}
+        onFilteredYear={props.onFilteredYear}
       />
     );
   }

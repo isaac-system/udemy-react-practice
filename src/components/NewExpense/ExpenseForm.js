@@ -73,6 +73,9 @@ const ExpenseForm = (props) => {
 
     // 상향식 통신
     props.onSaveExpenseData(newExpenseData);
+    props.onFilteredYear(new Date(enteredDate).getFullYear().toString());
+    //props.onFilteredYear(enteredDate.substring(0,4));
+
     // 작성한 내용 비우기
     setEnteredTitle("");
     setEnteredAmount("");
