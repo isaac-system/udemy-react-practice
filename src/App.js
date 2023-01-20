@@ -52,6 +52,12 @@ const App = () => {
     );
   };
 
+  // Delete
+  const deleteExpenseHandler = (newExpenseData) => {
+    setExpenses(expenses.filter((item) => item.id !== newExpenseData.id));
+    alert(newExpenseData.title + " 삭제되었습니다.");
+  };
+
   return (
     // JSX라는 특수한 문법 때문에 기동 가능하다.
     // JSX == javascript + XML , html == XML
@@ -59,14 +65,20 @@ const App = () => {
     // !!! 리액트에 있는 컴포넌트는 단지 자바스크립트 함수일 뿐이다.
     <div>
       <NewExpense
+        // create
         onAddExpenseData={addExpenseHandler}
         onFilteredYear={setFilteredYear}
       />
       <Expense
+        // read
         items={expenses}
-        onChagneExpenseData={updateExpenseHandler}
-        onFilteredYear={setFilteredYear}
         filteredYear={filteredYear}
+        // update
+        onChagneExpenseData={updateExpenseHandler}
+        // delete
+        onDeleteExpenseDate={deleteExpenseHandler}
+        // filter by year
+        onFilteredYear={setFilteredYear}
       />
     </div>
   );

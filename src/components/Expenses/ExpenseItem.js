@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 
 import ExpenseDate from "../Expenses/ExpenseDate";
+import ExpenseModal from "./ExpenseModal";
 import Card from "../UI/Card";
 import "../Expenses/ExpenseItem.css";
+import { BsThreeDots } from "react-icons/bs";
 
 const ExpenseItem = (props) => {
   /* hardcode
@@ -10,6 +12,9 @@ const ExpenseItem = (props) => {
   const expenseTitle = "Car Insurance";
   const expenseAmount = 294.67;
   */
+
+  const [modalVisible, setModalVisible] = useState(false);
+
   const [inputs, setInputs] = useState({
     date: props.date,
     title: props.title,
@@ -64,6 +69,24 @@ const ExpenseItem = (props) => {
     props.onChagneExpenseData(expenseData);
   };
 
+  const deleteExpenseHandler = () => {
+    const expenseData = {
+      ...props,
+    };
+
+    props.onDeleteExpenseDate(expenseData);
+  };
+
+  const releasePopup = () => {
+    setModalVisible(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const onBlurHandler = () => {
+    setModalVisible(false);
+    document.body.style.overflow = "unset";
+  };
+
   const doubleClickHandler = ({ name }) => {
     if (name) {
       setIsInputSetting((prevState) => {
@@ -71,11 +94,13 @@ const ExpenseItem = (props) => {
       });
     }
   };
-  const onKeyDownHandler = (event) => {
-    if (!/^[.0-9]/.test(event.key) && event.key.length === 1) {
-      event.preventDefault();
-    }
 
+  const onKeyDownHandler = (event) => {
+    if (event.target.type === "number") {
+      if (!/^[.0-9]/.test(event.key) && event.key.length === 1) {
+        event.preventDefault();
+      }
+    }
     if (event.key === "Enter") {
       submitHandler();
     }
@@ -134,13 +159,24 @@ const ExpenseItem = (props) => {
             />
           ) : (
             <h2
-              onDoubleClick={(e) => {
+              onDoubleClick={() => {
                 doubleClickHandler({ name: "amount" });
               }}
             >
               ${amount}
             </h2>
           )}
+        </div>
+        <div>
+          {modalVisible ? (
+            <ExpenseModal
+              onBlur={onBlurHandler}
+              onDelete={deleteExpenseHandler}
+            />
+          ) : (
+            ""
+          )}
+          <BsThreeDots color="white" width="100px" onClick={releasePopup} />
         </div>
       </div>
 

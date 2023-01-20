@@ -10,12 +10,19 @@ import "./Expense.css";
 
 const Expense = (props) => {
   const [title, setTitle] = useState("");
-  const filterChangeHandler = (selectedYear) => {
-    props.onFilteredYear(selectedYear);
-  };
+
   const searchTitleHandler = (title) => {
     setTitle(title);
   };
+
+  const filterChangeHandler = (selectedYear) => {
+    props.onFilteredYear(selectedYear);
+  };
+
+  const deleteExpenseHandler = (newExpenseData) => {
+    props.onDeleteExpenseDate(newExpenseData);
+  };
+
   const filteredExpenses = props.items.filter((expense) => {
     return (
       expense.date.getFullYear().toString() === props.filteredYear &&
@@ -47,6 +54,7 @@ const Expense = (props) => {
         amount={item.amount}
         date={item.date}
         onChagneExpenseData={submitHandler}
+        onDeleteExpenseDate={deleteExpenseHandler}
       />
     ));
   }
